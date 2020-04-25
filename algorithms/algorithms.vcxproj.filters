@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="container">
+      <UniqueIdentifier>{3fea8d59-db9e-4cf2-b250-1704db9690e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="container\vector">
+      <UniqueIdentifier>{2bd3feca-dd60-4579-a263-503359b1d6a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="configuration">
+      <UniqueIdentifier>{fb92066b-8ca7-4542-b4f6-8c409e7137af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="debugging">
+      <UniqueIdentifier>{9354e11f-9673-4efe-8c5a-70d35713a67c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="empty.cpp" />
+    <ClCompile Include="debugging\assert.cpp">
+      <Filter>debugging</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="container\vector\vectordoublingsize.h">
+      <Filter>container\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="container\vector\vectorgrowingconstant.h">
+      <Filter>container\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="container\vector\vectors.h">
+      <Filter>container\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="container\vector\arrayvector.h">
+      <Filter>container\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="container\vector\defaultvectorimplementation.h">
+      <Filter>container\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="container\vector\vectoradt.h">
+      <Filter>container\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="container\container.h">
+      <Filter>container</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration\configuration.h">
+      <Filter>configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration\datatypes.h">
+      <Filter>configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration\platform.h">
+      <Filter>configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration\processor.h">
+      <Filter>configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration\charset.h">
+      <Filter>configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration\compiler.h">
+      <Filter>configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="cob.h" />
+    <ClInclude Include="debugging\assert.h">
+      <Filter>debugging</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
