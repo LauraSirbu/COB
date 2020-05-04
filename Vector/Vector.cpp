@@ -9,15 +9,17 @@ using namespace std;
 
 int main()
 {
-    Vector<int> vector(5);
+    /*Vector<int> vector(5);
 
     for (int i = 0; i < 8; i++)
     {
         vector.Add(i);
-    }
+    }*/
+
+    Vector<int> vector = { 3, 4, 5, 6, 7, 8 };
 
     vector.Print();
-    cout << "Vector size: " << vector.Size() << endl;
+    cout << "Vector size: " << vector.GetSize() << endl;
 
     if (!vector.IsEmpty())
     {
@@ -34,105 +36,110 @@ int main()
     copyVector.Print();
 
     cout << "Move vector." << endl;
-    Vector<int> moveVector(3);
+    Vector<int> moveVector(6);
     moveVector = std::move(vector);
     moveVector.Print();
+    cout << "Vector size: " << vector.GetSize() << endl;
+    cout << "Allocated size: " << vector.GetAllocatedSize() << endl;
 
     cout << "Update elem at position []." << endl;
-    vector[3] = 100;
+    vector[1] = 100;
     vector.Print();
 
-    copyVector.Clear();
+    /*  copyVector.Clear();
 
-    cout << "Add elem at index." << endl;
-    vector.AddAtIndex(2, vector[4]);
-    vector.Print();
+      cout << "Add elem at index." << endl;
+      vector.AddAtIndex(2, vector[4]);
+      vector.Print();
 
-    cout << "Get front: "<< vector.GetFront() << endl;
-    vector.GetFront() = 5;
-    cout << "Get front updated: " << vector.GetFront() << endl;
+      cout << "Get front: "<< vector.GetFront() << endl;
+      vector.GetFront() = 5;
+      cout << "Get front updated: " << vector.GetFront() << endl;
 
-    cout << "Get back: " << vector.GetBack() << endl;
+      cout << "Get back: " << vector.GetBack() << endl;
 
-    cout << "Add vector at back: " << endl;
-    Vector<int> vectorToAdd(3);
+      cout << "Add vector at back: " << endl;
+      Vector<int> vectorToAdd(3);*/
 
-    for (int i = 100; i < 102; i++)
-    {
-        vectorToAdd.Add(i);
-    }
+      /* for (int i = 100; i < 102; i++)
+       {
+           vectorToAdd.Add(i);
+       }
 
-    vectorToAdd.Print();
+       vectorToAdd.Print();
 
-    vector.AddVector(vectorToAdd);
-    vector.Print();
+       vector.Add(vectorToAdd);
+       vector.Print();
 
-    cout << "New size: " << vector.Size() << endl;
+       cout << "New size: " << vector.GetSize() << endl;
 
-    cout << "Compare content of 2 vectors: " << endl;
-    Vector<int> vector1(2);
-    Vector<int> vector2(2);
+       cout << "Compare content of 2 vectors: " << endl;
+       Vector<int> vector1(2);
+       Vector<int> vector2(2);*/
 
-    for (int i = 500; i < 502; i++)
-    {
-        vector1.Add(i);
-        vector2.Add(i);
-    }
+       //for (int i = 500; i < 502; i++)
+       //{
+       //    vector1.Add(i);
+       //    vector2.Add(i);
+       //}
 
-    if (vector1 == vector2)
-    {
-        cout << "Vector1 is equal with vector2." << endl;
-    }
-    else
-    {
-        cout << "Vector1 is not equal with vector2." << endl;
-    }
+       //if (vector1 == vector2)
+       //{
+       //    cout << "Vector1 is equal with vector2." << endl;
+       //}
+       //else
+       //{
+       //    cout << "Vector1 is not equal with vector2." << endl;
+       //}
 
-    if (vector1 == vector)
-    {
-        cout << "Vector1 is equal with vector2." << endl;
-    }
-    else
-    {
-        cout << "Vector1 is not equal with vector2." << endl;
-    }
+       //if (vector1 == vector)
+       //{
+       //    cout << "Vector1 is equal with vector2." << endl;
+       //}
+       //else
+       //{
+       //    cout << "Vector1 is not equal with vector2." << endl;
+       //}
 
-    if (vector1 != vector2)
-    {
-        cout << "Vector1 is equal with vector2." << endl;
-    }
-    else
-    {
-        cout << "Vector1 is not equal with vector2." << endl;
-    }
+       //if (vector1 != vector2)
+       //{
+       //    cout << "Vector1 is equal with vector2." << endl;
+       //}
+       //else
+       //{
+       //    cout << "Vector1 is not equal with vector2." << endl;
+       //}
 
-    if (vector1 != vector)
-    {
-        cout << "Vector1 is equal with vector2." << endl;
-    }
-    else
-    {
-        cout << "Vector1 is not equal with vector2." << endl;
-    }
+       //if (vector1 != vector)
+       //{
+       //    cout << "Vector1 is equal with vector2." << endl;
+       //}
+       //else
+       //{
+       //    cout << "Vector1 is not equal with vector2." << endl;
+       //}
 
-    cout << "Replace at index: " << endl;
-    vector.Replace(5, 1);
-    vector.Print();
+       //cout << "Replace at index: " << endl;
+       //vector.Replace(5, 1);
+       //vector.Print();
 
-    cout << "Remove at index: " << endl;
-    vector.Remove(1);
-    vector.Print();
-    cout << "New size after remove: " << vector.Size() << endl;
+       //cout << "Remove at index: " << endl;
+       //vector.Remove(1);
+       //vector.Print();
+       //cout << "New size after remove: " << vector.GetSize() << endl;
 
-    cout << "Fast remove: " << endl;
-    vector.FastRemove(2);
-    vector.Print();
-    cout << "New size after fast remove: " << vector.Size() << endl;
+       //cout << "Fast remove: " << endl;
+       //vector.FastRemove(2);
+       //vector.Print();
+       //cout << "New size after fast remove: " << vector.GetSize() << endl;
 
-    cout << "Remove back: " << endl;
-    vector.RemoveBack();
-    vector.Print();
-    cout << "New size after remove back: " << vector.Size() << endl;
+       //cout << "Remove back: " << endl;
+       //vector.RemoveBack();
+       //vector.Print();
+       //cout << "New size after remove back: " << vector.GetSize() << endl;
+
+       //Vector<int> v = { 3, 4, 5, 6, 7 };
+       //v.Print();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

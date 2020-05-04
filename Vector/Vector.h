@@ -9,22 +9,25 @@ class Vector
 {
 public:
 	/// Default C-tor
-	Vector<T>();
+	Vector();
 
 	/// Create a vector of capacity n.
 	Vector<T>(const T&);
+
+	/// C-tor with initializer list
+	Vector(std::initializer_list<T> list);
 
 	/// Copy C-tor. Change address.
 	Vector(const Vector<T>& obj);
 
 	/// Move constructor. Don't change address. Use rvalue.
-	Vector(const Vector<T>&& rhs);
+	Vector(Vector<T>&& rhs);
 
 	/// Destructor
 	~Vector();
 
 	/// Returns the current size of the vector. Count of elements stored inside it.
-	T Size() const;
+	T GetSize() const;
 
 	/// Capacity of vector
 	T Capacity() const;
@@ -51,7 +54,7 @@ public:
 	void AddAtIndex(T index, T& data);
 
 	/// Add the contents of the parameter vector to the back of this vector.
-	void AddVector(const Vector<T>& vector);
+	void Add(const Vector<T>& vector);
 
 	/// Replace the object at the specified index with the new object.
 	void Replace(const T index, const T& object);
@@ -68,6 +71,9 @@ public:
 
 	/// If the vector is not large, double current capacity.
 	void AllocNewSize();
+
+	/// Return size of the internally allocated array
+	T GetAllocatedSize();
 
 	/// Clear the vector.
 	void Clear();
@@ -95,37 +101,46 @@ public:
 	const bool operator!=(const Vector<T>& rhs) const;
 
 private:
-	// Store address of vector
-	T* arr;
 	// Vector size
 	T size;
-	// Number of element present in vector
-	T current;
+	// Store address of vector
+	T* arr;
 };
 
 /// Default Constructor
 template<class T>
 Vector<T>::Vector()
 {
-	current = 1;
-	arr = new T[current];
+	arr = new T;
 	size = 0;
 }
 
 /// Parameterized Constructor
 template<class T>
-Vector<T>::Vector(const T& val)
+Vector<T>::Vector(const T& rhs)
 {
-	current = val;
-	arr = new T [current];
-	size = 0;
+	size = rhs;
+	arr = new T;
+}
+
+/// C-tor with initializer list
+template<class T>
+Vector<T>::Vector(std::initializer_list<T> list)
+{
+	arr = new T;
+	int count{ 0 };
+	for (T element : list)
+	{
+		arr[count] = element;
+		count++;
+	}
+	size = count;
 }
 
 /// Copy Constructor - initialize an object base on another object from the same class.
 template<class T>
 Vector<T>::Vector(const Vector<T>& obj)
 {
-	current = obj.current;
 	size = obj.size;
 	delete[] arr;
 	arr = new T[size];
@@ -137,41 +152,38 @@ Vector<T>::Vector(const Vector<T>& obj)
 
 /// Move constructor - move rValue into lValue without copy
 template<class T>
-Vector<T>::Vector(const Vector<T>&& rhs)
+Vector<T>::Vector(Vector<T>&& rhs)
 {
-	current = rhs.current;
+	// Free the existing resource.
+	delete[] arr;
+
+	// Copy
 	size = rhs.size;
 	arr = rhs.arr;
+
+	// Release the data pointer from the source object
+	rhs.arr = nullptr;
+	rhs.size = 0;
 }
 
 /// Destructor
 template<class T>
 Vector<T>::~Vector()
 {
-	if (arr != nullptr)
-	{
-		delete[] arr;
-		arr = nullptr;
-	}
+	delete[] arr;
+	arr = nullptr;
 }
 
 /// Check if vector is empty
 template<class T>
 T Vector<T>::IsEmpty() const
 {
-	if (size == 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return size == 0;
 }
 
 /// Return vector size.
 template<class T>
-T Vector<T>::Size() const
+T Vector<T>::GetSize() const
 {
 	return size;
 }
@@ -180,7 +192,7 @@ T Vector<T>::Size() const
 template<class T>
 T Vector<T>::Capacity() const
 {
-	return current;
+	return size;
 }
 
 /// Returns a reference to the object at the front of the vector.
@@ -201,7 +213,7 @@ const T& Vector<T>::GetFront() const
 template<class T>
 T& Vector<T>::GetBack()
 {
-	return arr[current];
+	return arr[size - 1];
 }
 
 /// Add the given object at the back of the vector.
@@ -209,7 +221,7 @@ template<class T>
 void Vector<T>::Add(T& data)
 {
 	// Allocate new memory space if the size of the vector is greater than the capacity of the vector
-	if (size + 1 > current)
+	if (size + 1 > data)
 	{
 		AllocNewSize();
 	}
@@ -233,19 +245,22 @@ void Vector<T>::AddAtIndex(T index, T& data)
 
 /// Add the contents of the parameter vector to the back of this vector.
 template<class T>
-void Vector<T>::AddVector(const Vector<T>& vector)
+void Vector<T>::Add(const Vector<T>& vector)
 {
 	// Allocate new memory space if the size of the vector is greater than the capacity of the vector
-	if (size + 1 > current)
+	if (size + 1 > vector.size)
 	{
 		AllocNewSize();
 	}
-	
-	for (int i = 0; i < vector.size; i++)
+
+	int count{ 0 };
+	T sz = vector.size;
+	for (T i = 0; i < sz; i++)
 	{
-		arr[size] = vector.arr[i];
-		size++;
+		arr[count] = vector.arr[i];
+		count++;
 	}
+	size = count;
 }
 
 /// Replace the object at the specified index with the new object.
@@ -253,7 +268,9 @@ template<class T>
 void Vector<T>::Replace(const T index, const T& object)
 {
 	if (index > size)
+	{
 		return;
+	}
 
 	arr[index] = object;
 }
@@ -270,7 +287,7 @@ void Vector<T>::Remove(const T index)
 		if (i == index)
 		{
 			arr[i] = arr[i + 1];
-			size --;
+			size--;
 		}
 	}
 }
@@ -303,13 +320,13 @@ template<class T>
 void Vector<T>::AllocNewSize()
 {
 	// Increase vector capacity by doubling the size of the vector by 2
-	current = size * 2;
+	size = size * 2;
 
 	// Declare new array
-	T* temp = new T[current];
+	T* temp = new T[size];
 
 	// Copy data from old array into new array
-	for (int i = 0; i < size; i++)
+	for (T i = 0; i < size; i++)
 	{
 		temp[i] = arr[i];
 	}
@@ -317,6 +334,13 @@ void Vector<T>::AllocNewSize()
 	delete[] arr;
 	arr = temp;
 
+}
+
+/// Return size of the internally allocated array
+template<class T>
+T Vector<T>::GetAllocatedSize()
+{
+	return size;
 }
 
 /// Print vector elements.
@@ -365,7 +389,6 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& rhs)
 	if (this != &rhs)
 	{
 		size = rhs.size;
-		current = rhs.current;
 		delete[] arr;
 		arr = new T[size];
 		for (int i = 0; i < rhs.size; i++)
@@ -382,10 +405,13 @@ Vector<T>& Vector<T>::operator=(Vector<T>&& rhs)
 {
 	if (this != &rhs)
 	{
-		size = rhs.size;
-		current = rhs.current;
 		delete[] arr;
+
 		arr = rhs.arr;
+		size = rhs.size;
+
+		rhs.arr = nullptr;
+		rhs.size = 0;
 	}
 	return *this;
 }
@@ -395,7 +421,7 @@ Vector<T>& Vector<T>::operator=(Vector<T>&& rhs)
 template<class T>
 const bool Vector<T>::operator==(const Vector<T>& rhs) const
 {
-	if (size == rhs.size && current == rhs.current && *arr == *rhs.arr)
+	if (size == rhs.size && *arr == *rhs.arr)
 	{
 		return true;
 	}
@@ -410,7 +436,7 @@ const bool Vector<T>::operator==(const Vector<T>& rhs) const
 template<class T>
 const bool Vector<T>::operator!=(const Vector<T>& rhs) const
 {
-	if (size != rhs.size && current != rhs.current && *arr != *rhs.arr)
+	if (size != rhs.size && *arr != *rhs.arr)
 	{
 		return false;
 	}
