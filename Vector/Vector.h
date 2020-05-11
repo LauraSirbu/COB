@@ -111,30 +111,25 @@ private:
 template<class T>
 Vector<T>::Vector()
 {
-	arr = new T;
-	size = 0;
+	//arr = new T;
+	//size = 0;
 }
 
 /// Parameterized Constructor
 template<class T>
 Vector<T>::Vector(const T& rhs)
 {
-	size = rhs;
+	//size = rhs;
 	arr = new T;
 }
 
 /// C-tor with initializer list
 template<class T>
 Vector<T>::Vector(std::initializer_list<T> list)
+	:arr{ new T[list.size()] }
 {
-	arr = new T;
-	int count{ 0 };
-	for (T element : list)
-	{
-		arr[count] = element;
-		count++;
-	}
-	size = count;
+	size = list.size();
+	std::copy(list.begin(), list.end(), arr);
 }
 
 /// Copy Constructor - initialize an object base on another object from the same class.
@@ -154,9 +149,6 @@ Vector<T>::Vector(const Vector<T>& obj)
 template<class T>
 Vector<T>::Vector(Vector<T>&& rhs)
 {
-	// Free the existing resource.
-	delete[] arr;
-
 	// Copy
 	size = rhs.size;
 	arr = rhs.arr;
